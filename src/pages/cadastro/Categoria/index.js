@@ -30,7 +30,11 @@ function CadastroCategoria() {
   }
 
   useEffect(() => {
-    const URL_TOP = 'http://localhost:8080/categorias';
+    const URL_PRODUCAO = 'https://meudevflix.herokuapp.com/categorias';
+    const URL_DEV = 'http://localhost:8080/categorias';
+
+    const URL_TOP = window.location.hostname.includes('localhost') ? URL_DEV : URL_PRODUCAO;
+    
     fetch(URL_TOP)
       .then(async (respostaDoServidor) => {
         const resposta = await respostaDoServidor.json();
@@ -83,9 +87,11 @@ function CadastroCategoria() {
         <Button> Cadastrar </Button>
       </form>
 
+      {categorias.length === 0 && (
       <div>
         Carregando...
       </div>
+      )}
 
       <ul>
         {categorias.map((categoria) => (
