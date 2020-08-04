@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
 import Button from '../../../components/Button';
+import useForm from '../../../hoocks/useForm';
 
 function CadastroCategoria() {
   const valoresIniciais = {
@@ -12,22 +13,9 @@ function CadastroCategoria() {
     cor: '',
   };
 
+  const { handleChange, valoresDaCategorias, clearForm } = useForm(valoresIniciais);
+
   const [categorias, setCategorias] = useState([]);
-  const [valoresDaCategorias, setValoresDaCategorias] = useState(valoresIniciais);
-
-  function setValoresDaCategoria(chave, valor) {
-    setValoresDaCategorias({
-      ...valoresDaCategorias,
-      [chave]: valor,
-    });
-  }
-
-  function handleChange(infosDoEvento) {
-    setValoresDaCategoria(
-      infosDoEvento.target.getAttribute('name'),
-      infosDoEvento.target.value,
-    );
-  }
 
   useEffect(() => {
     const URL_PRODUCAO = 'https://meudevflix.herokuapp.com/categorias';
@@ -58,7 +46,7 @@ function CadastroCategoria() {
           valoresDaCategorias,
         ]);
 
-        setValoresDaCategorias(valoresIniciais);
+        clearForm();
       }}
       >
 
@@ -95,8 +83,8 @@ function CadastroCategoria() {
 
       <ul>
         {categorias.map((categoria) => (
-          <li key={`${categoria.nome}`}>
-            {categoria.nome}
+          <li key={`${categoria.titulo}`}>
+            {categoria.titulo}
           </li>
         ))}
       </ul>
